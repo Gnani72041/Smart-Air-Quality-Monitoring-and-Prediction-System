@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Quality Prediction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --gradient-start: #3498db;
+            --gradient-end: #2c3e50;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            --border-radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.3);
+        }
+
+        .form-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .btn {
+            padding: 14px 25px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-block {
+            width: 100%;
+            grid-column: span 2;
+        }
+
+        .info-section {
+            margin-top: 30px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-block {
+                grid-column: span 1;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-wind"></i> Air Quality Prediction</h1>
+            <p>Enter pollutant levels to predict the Air Quality Index (AQI)</p>
+        </div>
+        
+        <div class="card">
+            <form action="/predict" method="POST">
+                <div class="form-container">
+                    <div class="input-group">
+                        <label for="pm25"><i class="fas fa-smog"></i> PM2.5 (μg/m³)</label>
+                        <input type="number" step="any" name="pm25" id="pm25" placeholder="Enter PM2.5 value" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="pm10"><i class="fas fa-cloud"></i> PM10 (μg/m³)</label>
+                        <input type="number" step="any" name="pm10" id="pm10" placeholder="Enter PM10 value" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="no2"><i class="fas fa-industry"></i> NO2 (ppb)</label>
+                        <input type="number" step="any" name="no2" id="no2" placeholder="Enter NO2 value" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="so2"><i class="fas fa-fire"></i> SO2 (ppb)</label>
+                        <input type="number" step="any" name="so2" id="so2" placeholder="Enter SO2 value" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="co"><i class="fas fa-smoke"></i> CO (ppm)</label>
+                        <input type="number" step="any" name="co" id="co" placeholder="Enter CO value" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="o3"><i class="fas fa-sun"></i> O3 (ppb)</label>
+                        <input type="number" step="any" name="o3" id="o3" placeholder="Enter O3 value" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-calculator"></i> Calculate AQI
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="info-section">
+            <p><i class="fas fa-info-circle"></i> All values should be in standard units (μg/m³ for PM, ppb for gases)</p>
+        </div>
+    </div>
+</body>
+</html>
